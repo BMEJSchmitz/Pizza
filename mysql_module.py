@@ -1,6 +1,8 @@
 from pathlib import Path
 from app import app
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+from datetime import timedelta
 
 Path("db").mkdir(parents=True, exist_ok=True)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/my_app.db"
@@ -24,6 +26,9 @@ class Customer(db.model):
     def FindCustomer(address, district, city):
         return Customer.query.filter_by(address=address, district_code=district, city=city).first()
     
+    def __repr__(self):
+        return f"Customer {self.customer_id}, {self.name}, {self.phone_number}, {self.address}, {self.area_code}, {self.city}"
+
 class Order(db.model):
     order_id = db.Column(db.Integer, primary_key=True, auto_increment=True)
     customer_id = db.Column(db.Integer)
@@ -31,11 +36,29 @@ class Order(db.model):
     delivery_time = db.Column(db.Datetime)
     status = db.Column(db.String(20))
     
-    #def CreateOrder():
-        
+    def CreateOrder(customer, discount):
+        time = datetime.now()
+        order = Order(customer_id=customer, discount_code=discount, delivery_time=time + timedelta(mins = 15), status='In Process')
+           
+        db.session.add(order)
+        db.session.commit()
+           
+        return order
+           
         
     def FindOrder(order):
         return Order.query.filter_by(order_id=order).first()
+    
+    def CancelOrder(order):
+        order = Order.FindOrder(order)
+        order.status = 'Cancelled'
+        
+        db.session.commit()
+        
+        return order
+    
+    def __repr__(self):
+        return f"Order {self.order_id}, {self.delivery_time}, {self.status}"
     
     
 class DeliveryPerson(db.model):
@@ -49,4 +72,7 @@ class DeliveryPerson(db.model):
         db.session.commit()
         
         return delivery_person
+    
+    def __repr__(self):
+        return f"Delivery Person {self.employee_id}, {self.name}, {self.area_code}"
         
