@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Create Customer</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    
+    <body>
+    
+        <h2>Create Customer</h2>
+        <form action="/create" method="post">
+        
+            <div>
+            
+                <label for="name"><strong>Name</strong></label>
+                <input type="text" placeholder="Enter name" name="name" required> <br />
+                
+                <label for="phone_number"><strong>Phone number</strong></label>
+                <input type="tel" placeholder="Enter phone number" name="phone_number" required> <br />
+                
+                <label for="address"><strong>Address</strong></label>
+                <input type="text" placeholder="Enter street and housenumber" name="address" required> <br />
+                
+                <label for="district_code"><strong>District code</strong></label>
+                <input type="text" placeholder="Enter district code" name="district_code" required> <br />
+                
+                <label for="city"><strong>City</strong></label>
+                <input type="text" placeholder="Enter city" name="city" required> <br />
+                
+                <button type="submit">Submit</button> <br />
+                
+            </div>
+        </form>
+    </body>
+</html>

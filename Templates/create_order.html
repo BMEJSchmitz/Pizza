@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Create Order</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    
+    <body>
+    
+        <h2>Create Order</h2>
+        <form action="/create" method="post">
+        
+            <div>
+            
+                <label for="customer_id"><strong>Customer ID (for existing customers)</strong></label>
+                <input type="number" placeholder="Enter customer_id" name="customer_id" min="1"> <br />
+                <h3>if you don't have a customer ID, please fill out the fields marked with '*'</h3>
+                
+                <label for="name"><strong>Name*</strong></label>
+                <input type="text" placeholder="Enter name" name="name" required> <br />
+                
+                <label for="phone_number"><strong>Phone number*</strong></label>
+                <input type="tel" placeholder="Enter phone number" name="phone_number" required> <br />
+                
+                <label for="address"><strong>Address*</strong></label>
+                <input type="text" placeholder="Enter street and housenumber" name="address" required> <br />
+                
+                <label for="district_code"><strong>District code*</strong></label>
+                <input type="text" placeholder="Enter district code" name="district_code" required> <br />
+                
+                <label for="city"><strong>City*</strong></label>
+                <input type="text" placeholder="Enter city" name="city" required> <br />
+                
+                <label for="discount_code"><strong>Discount code</strong></label>
+                <input type="text" placeholder="Enter discount code" name="discount_code"> <br />
+                
+                {% for item in pizzas %}
+                    <label for=item.pizza_id><strong>item.name</strong></label>
+                    <input type="number" placeholder="Enter you amount" name=item.pizza_id min="1"> <br />
+                {% endfor %}
+                
+                {% for item in drinks %}
+                    <label for=item.drink_id><strong>item.name</strong></label>
+                    <input type="number" placeholder="Enter your amount" name=item.drink_id min="1"> <br />
+                {% endfor %}
+                
+                {% for item in desserts %}
+                    <label for=item.dessert_id><strong>item.name</strong></label>
+                    <input type="number" placeholder="Enter you amount" name=item.dessert_id min="1"> <br />
+                {% endfor %}
+                
+                <button type="submit">Submit</button> <br />
+                
+            </div>
+        </form>
+    </body>
+</html>
