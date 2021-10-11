@@ -1,9 +1,46 @@
-from flask import Flask, request, render_template, make_response
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Oct  5 14:36:02 2021
 
+@author: Aditi Mishra
+"""
+
+from flask import Flask, make_response, request, render_template
 app = Flask(__name__)
+from model import Pizza, Toppings, drinks, desserts, Customer, Order
 
-from mysql_module import Customer, Order, Pizza, Drink, Dessert
-
+@app.route("/Pizza/<pizza_id>")
+def get_Pizza(pizza_id: int):
+    pizza = Pizza.find_pizza(pizza_id = pizza_id)
+    if pizza:
+        return make_response(str(pizza),200)
+    else:
+        return make_response({"error": f"Pizza with pizza id {pizza_id} does not exist."})
+    
+@app.route("/toppings/<toppings_id>")
+def get_Toppings(toppings_id: int):
+    toppings = Toppings.find_toppings(toppings_id = toppings_id)
+    if toppings:
+        return make_response(str(toppings),200)
+    else:
+        return make_response({"error": f"Toppings with toppings id {toppings_id} does not exist"})
+    
+@app.route("/drinks/<name>")
+def get_Drinks(name: str):
+    drinks1 = drinks.find_drinks(name = name)
+    if drinks1:
+        return make_response(str(name),200)
+    else:
+        return make_response({"error": f"Drink with the name {name} does not exist"})
+    
+@app.route("/desserts/<name>")
+def get_Desserts(name: str):
+    desserts1 = desserts.find_desserts(name = name)
+    if desserts1:
+        return make_response(str(name),200)
+    else:
+        return make_response({"error": f"Dessert with the name {name} does not exist"})
+        
 @app.route("/customer/<customer_id>")
 def get_customer(customer_id: int):
     customer = Customer.FindCustomer(customer_id=customer_id)
@@ -59,10 +96,10 @@ def create_customer():
 @app.route("/order", methods=["GET"])
 def create_order_template():
     pizzas = Pizza.get_pizzas()
-    drinks = Drink.get_drinks()
-    desserts = Dessert.get_desserts()
+    drinks1 = drinks.get_drinks()
+    desserts1 = desserts.get_desserts()
     
-    return render_template("create_order.html", pizzas=pizzas, drinks=drinks, desserts=desserts)
+    return render_template("create_order.html", pizzas=pizzas, drinks=drinks1, desserts=desserts1)
 
 @app.route("/order", methods=["POST"])
 def create_order():
@@ -77,12 +114,12 @@ def create_order():
     if len(items) == 0:
         return make_response({"error": "Cannot place an order without at least one pizza."}, 400)
         
-    drinks = Drink.get_drinks()
-    for item in drinks:
+    drinks1 = drinks.get_drinks()
+    for item in drinks1:
         items[item.name] = request.form[item.drink_id]
     
-    desserts = Dessert.get_desserts()
-    for item in desserts:
+    desserts1 = desserts.get_desserts()
+    for item in desserts1:
         items[item.name] = request.form[item.dessert_id]
         
     customer =  Customer.FindCustomer(customer_id=customer_id)   
@@ -114,3 +151,5 @@ def create_order():
         return make_response({"error": f"Could not create order {str(ex)}"}, 400)
     
     return make_response({"success": str(order)})
+    
+    

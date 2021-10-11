@@ -55,6 +55,9 @@ class Pizza(db.Model):
     
     def find_pizza(self,pizzaId):
         return Pizza.query.filter_by(pizza_id = pizzaId).first() 
+    
+    def get_pizzas(self,pizzaId):
+        return Pizza.query.filter_by(pizza_id = pizzaId).all()
         
     
 class Toppings(db.Model):
@@ -88,6 +91,9 @@ class Toppings(db.Model):
         
     def __repr__(self):
         return f"Toppings {self.toppings_id},{self.name},{self.price},{self.vegetarian}"
+    
+    def find_toppings(self,toppings_id):
+        return Toppings.query.filter_by(toppings_id).first()
         
 class drinks(db.Model):
     name = db.Column(db.String(20),nullable=False)
@@ -107,6 +113,12 @@ class drinks(db.Model):
     def __repr__(self):
         return f"drinks {self.name}, {self.price}"
     
+    def find_drinks(self,name):
+        return drinks.query.filter_by(name).first()
+    
+    def get_drinks(self,name):
+        return drinks.query.filter_by(name).all()
+    
 class desserts(db.Model):
     name = db.Column(db.String(20),nullable=False)
     price = db.Column(db.Integer(5),nullable=False)
@@ -120,6 +132,12 @@ class desserts(db.Model):
         
     def __repr__(self):
         return f"desserts {self.name}, {self.price}"
+    
+    def find_desserts(name):
+        return desserts.query.filter_by(name).first()
+    
+    def get_desserts(self,name):
+        return desserts.query.filter_by(name).all()
     
 class Customer(db.Model):
     customer_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
